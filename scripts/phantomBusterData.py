@@ -4,13 +4,15 @@ import os
 
 
 def connect():
-    gc = gspread.service_account(filename="../../credentials.json")
+    """Function that connects to Google Sheets"""
+    gc = gspread.service_account(filename="/app/credentials.json")
     sh = gc.open_by_url(os.environ.get('SHEETS_URL'))
     print("Connected to Google Sheets")
     return sh
 
 
 def create(sh):
+    """Function that gets the data from Phantom CSV and uploads the first records in Google Sheets"""
     csv_url = os.environ.get('PHANTOM_CSV')
     print("Getting records from CSV")
     df = pd.read_csv(csv_url)
@@ -23,6 +25,7 @@ def create(sh):
 
 
 def update(sh):
+    """Function that updates the new records"""
     cell = sh.sheet1.find('**END_OF_RECORDS**', in_column=0)
     csv_url = os.environ.get('PHANTOM_CSV')
     print("Getting records from CSV")
