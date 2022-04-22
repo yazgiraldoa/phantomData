@@ -4,7 +4,7 @@ import os
 
 
 def connect():
-    gc = gspread.service_account(filename="../credentials.json")
+    gc = gspread.service_account(filename="../../credentials.json")
     sh = gc.open_by_url(os.environ.get('SHEETS_URL'))
     print("Connected to Google Sheets")
     return sh

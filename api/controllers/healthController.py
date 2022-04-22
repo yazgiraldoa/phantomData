@@ -2,9 +2,9 @@ from fastapi import APIRouter
 
 from api.routes.generalRoutes import HEALTH_CHECK
 
-api = APIRouter()
+api_router = APIRouter()
 
 
-@api.get(HEALTH_CHECK)
+@api_router.get(HEALTH_CHECK)
 def health_check():
     return {"status": "running"}
