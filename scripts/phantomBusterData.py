@@ -5,7 +5,7 @@ import os
 
 def connect():
     """Function that connects to Google Sheets"""
-    gc = gspread.service_account(filename="/app/credentials.json")
+    gc = gspread.service_account(filename="/root/phantomData/credentials.json")
     sh = gc.open_by_url(os.environ.get('SHEETS_URL'))
     print("Connected to Google Sheets")
     return sh
