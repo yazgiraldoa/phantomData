@@ -1,17 +1,17 @@
 from fastapi import APIRouter, HTTPException
 
-from api.managers.SheetsManager import SheetsManager
-from api.routes.generalRoutes import CREATE_TASK_PATH
+from api.managers.sheetsManager import SheetsManager
+from api.routes.generalRoutes import UPLOAD_TO_SHEETS_PATH
 
 api_router = APIRouter()
 sheetsManager = SheetsManager()
 
 
-@api_router.post(CREATE_TASK_PATH)
-def create_task(sheets_url: str = None, phantom_csv: str = None):
+@api_router.post(UPLOAD_TO_SHEETS_PATH)
+def upload_to_sheets(sheets_url: str = None, phantom_csv: str = None):
     """Endpoint that receives the configuration of the task to schedule"""
     if sheets_url and phantom_csv:
-        response = sheetsManager.create_import_task(sheets_url, phantom_csv)
+        response = sheetsManager.create_task(sheets_url, phantom_csv)
         if response == 'Ok':
             return {'status': 'Task scheduled successfully'}
         return response
