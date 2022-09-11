@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Sheet</title>
+    <link href="{{ url_for('style', path='styles.css') }}" rel="stylesheet">
+</head>
+<body>
+<form class="form-style-9" action="/sheet_submission" method="post">
+<ul>
+<li>
+    <input type="url" name="sheets_url" class="field-style field-full align-none" placeholder="google_sheet_url" />
+
+    <input type="url" name="phantom_csv" class="field-style field-full align-none" placeholder="phantom_csv" />
+
+</li>
+<li>
+<input type="submit" value="Send" />
+</li>
+</ul>
+</form>
+
+<h2  style="text-align:left; padding-left: 400px">
+    Managing data resulting from Phantom Buster tasks
+</h2>
+<p style="text-align:left; padding-left: 400px">
+    This is a brief tutorial to get the information resulting from Phantom Buster tasks. You will be able <br>
+to manage the information in Google Sheets and update new entries while the PB task is still running. <br>
+To use this solution, you have to have one Phantom Buster task running with at least one result in the CSV.
+    <span>
+
+    </span>
+</p>
+<br>
+<h2  style="text-align:left; padding-left: 400px" >
+    How to use the above form
+</h2>
+<p style="text-align:left; padding-left: 400px">
+    Please, fill in all the parameters:
+    <br>
+    <b> - google_sheet_url:</b>it’s the URL from Google Sheets
+    <br>
+    <br>
+    <b> - phantom_csv:</b>it’s the CSV link from the Phantom Buster task. You can go to Phantom Buster and right-click
+    <br>to copy the download link of the results CSV.
+    <br>
+    <br>
+    After filling in all the information, click <b>Send</b>. If the response is <b>“Task scheduled successfully” </b>, it’s all done!
+</p>
+</body>
+</html>
+<!--Just HTMl-->
