@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Google Sheet</title>
     <link href="{{ url_for('style', path='styles.css') }}" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<form class="form-style-9" action="/sheet_submission" method="post">
+<form name="sheet_form"  class="form-style-9" action="/sheet_submission" method="post">
 <ul>
 <li>
     <input type="url" name="sheets_url" class="field-style field-full align-none" placeholder="google_sheet_url" />
@@ -15,10 +16,19 @@
 
 </li>
 <li>
-<input type="submit" value="Send" />
+<input type="submit"  onclick="popup()" value="Send" />
+<input name="goolge_account" type="submit" formaction="/google_connection" value="Use Google Account" />
 </li>
+   <li>
+        <a href="/sheet_url"> Go to Sheet URL Form ---> </a>
+   </li>
+   <li>
+       <a href="/airtable_form"> Go to Airtable Form---> </a>
+   </li>
 </ul>
+
 </form>
+
 
 <h2  style="text-align:left; padding-left: 400px">
     Managing data resulting from Phantom Buster tasks
@@ -48,5 +58,41 @@ To use this solution, you have to have one Phantom Buster task running with at l
     After filling in all the information, click <b>Send</b>. If the response is <b>“Task scheduled successfully” </b>, it’s all done!
 </p>
 </body>
+
+<script>
+
+function popup() {
+         let phantom_csv = document.forms["sheet_form"]["phantom_csv"].value
+         let sheets_url = document.forms["sheet_form"]["sheets_url"].value
+         if (phantom_csv == null || sheets_url != null){
+             window.open('', Swal.fire({
+                    icon: 'error',
+                    title: 'Oops... This is Bad',
+                    text: 'There is a wrong with your phantom_csv or sheets_url name'
+                }), 'width=400,height=400,resizeable,scrollbars');
+             document.forms["sheet_form"].target= Swal.fire({
+                    icon: 'error',
+                    title: 'Oops... This is Bad',
+                    text: 'There is a wrong with your phantom_csv or sheets_url'
+                });
+         }
+        fetch('/sheet_submission').then((response) => {
+        console.log(response.status); // Will show you the status
+        if (!response.ok) {
+            {
+                window.open('', Swal.fire({
+                    icon: 'error',
+                    title: 'Oops... This is Bad',
+                    text: 'There is a wrong with your phantom_csv or sheets_url name'
+                }), 'width=400,height=400,resizeable,scrollbars');
+                form.target = Swal.fire({
+                    icon: 'error',
+                    title: 'Oops... This is Bad',
+                    text: 'There is a wrong with your phantom_csv or sheets_url'
+                });
+            }
+        }
+    });
+}
+</script>
 </html>
-<!--Just HTMl-->

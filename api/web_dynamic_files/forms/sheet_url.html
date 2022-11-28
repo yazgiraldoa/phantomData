@@ -2,28 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Airtable</title>
+    <title>Sheet URL</title>
     <link href="{{ url_for('style', path='styles.css') }}" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<form name="air_table" class="form-style-9" action="/air_table_submission" method="POST" onsubmit="target_popup(this)">
+<form name="Sheet_Form" class="form-style-9" action="/sheet_url_submission" method="POST" onsubmit="target_popup(this)">
 <ul>
-
 <li>
-    <input type="url" name="phantom_csv" class="field-style field-split align-left" placeholder="phantom_csv" />
-    <input type="text" name="airtable_api_key" class="field-style field-split align-right" placeholder="airtable_api_key" />
+    <input type="url" name="sheet_url" class="field-style field-full align-none" placeholder="sheet_url" />
+</li>
 
-</li>
-<li>
-    <input type="url" name="airtable_base_url" class="field-style field-split align-left" placeholder="airtable_base_url" />
-    <input type="text" name="airtable_table_name" class="field-style field-split align-right" placeholder="airtable_table_name" />
-</li>
 <li>
 <input type="submit" value="Send" />
 </li>
     <li>
-        <a href="/sheet_url"> Go to Sheet URL Form ---> </a>
+         <a href="/airtable_form"> Go to Airtable Form---> </a>
 </li>
       <li>
     <a href="/sheet_form"> Go to Sheet Form---> </a>
@@ -71,29 +65,8 @@ To use this solution, you have to have one Phantom Buster task running with at l
 <script>
 
 function target_popup(form) {
-    let phantom_csv = document.forms["air_table"]["phantom_csv"].value
-    let airtable_api_key = document.forms["air_table"]["airtable_api_key"].value
-    let airtable_base_url = document.forms["air_table"]["airtable_base_url"].value
-    let airtable_table_name = document.forms["air_table"]["airtable_table_name"].value
-     fetch('/air_table_submission').then((response) => {
-        console.log(response.status); // Will show you the status
-        if (!response.ok) {
-            {
-                window.open('', Swal.fire({
-                    icon: 'error',
-                    title: 'Oops... This is Bad',
-                    text: 'There is a wrong with your URLs, airtable name, or airtable api key'
-                }), 'width=400,height=400,resizeable,scrollbars');
-                form.target = Swal.fire({
-                    icon: 'error',
-                    title: 'Oops... This is Bad',
-                    text: 'There is a wrong with your URLs, airtable name, or airtable api key'
-                });
-            }
-        }
-    });
-    if (phantom_csv == null || phantom_csv == "" || airtable_api_key == null || airtable_api_key == "" ||
-        airtable_base_url == null || airtable_base_url == "" || airtable_table_name == null || airtable_table_name == "") {
+   let sheet_url = document.forms["Sheet_Form"]["sheet_url"].value
+    if (sheet_url == null || sheet_url == "") {
         window.open('', Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -106,7 +79,6 @@ function target_popup(form) {
         });
     }
 }
-
 </script>
 
 </html>
