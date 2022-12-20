@@ -13,20 +13,22 @@ def connect():
 
 def create(sh):
     """Function that gets the data from Phantom CSV and uploads the first records in Google Sheets"""
-    csv_url = os.getenv('PHANTOM_CSV')
-    print("Getting records from CSV")
-    df = pd.read_csv(csv_url)
-    print("Got records from CSV")
+    df = pd.read_csv("https://cache1.phantombooster.com/hrxWS8qGcnE/Am4ee5XhTF9rr7UaMy0P2Q/result.csv")
     aux_df = pd.DataFrame(['**END_OF_RECORDS**'], columns=[df.columns.values[0]])
     df = pd.concat([df, aux_df])
+    df_cols = [col for col in df.columns]
+    for colum in df_cols:
+        if df[f"{colum}"].str.contains('static-exp1').any():
+            df['image'] = df[f"{colum}"]
+            df = df.fillna('')
+    df['image'] = df['image'].apply(lambda path: f'=IMAGE("{path}",4,100,100)'.strip())
     df = df.fillna('')
-    sh.sheet1.update([df.columns.values.tolist()] + df.values.tolist())
+    sh.sheet1.update([df.columns.values.tolist()] + df.values.tolist(), raw=False)
     print("Records uploaded in Google Sheets")
 
 
-def update(sh):
+def update(sh, cell):
     """Function that uploads the new records"""
-    cell = sh.sheet1.find('**END_OF_RECORDS**', in_column=0)
     csv_url = os.getenv('PHANTOM_CSV')
     print("Getting records from CSV")
     df = pd.read_csv(csv_url, skiprows=cell.row - 2)
@@ -35,6 +37,14 @@ def update(sh):
     if df.values.size > 0:
         aux_df = pd.DataFrame(['**END_OF_RECORDS**'], columns=[df.columns.values[0]])
         df = pd.concat([df, aux_df])
+        df_cols = [col for col in df.columns]
+        for colum in df_cols:
+            if df[f"{colum}"].str.contains('static-exp1').any():
+                df['image'] = df[f"{colum}"]
+                df = df.fillna('')
+        df['image'] = df['image'].apply(lambda path: f'=IMAGE("{path}",4,100,100)'.strip())
+        df = df.fillna('')
+        sh.sheet1.update([df.columns.values.tolist()] + df.values.tolist(), raw=False)
         df = df.fillna('')
         sh.sheet1.delete_rows(cell.row)
         sh.sheet1.append_rows(df.values.tolist())
@@ -43,10 +53,10 @@ def update(sh):
         print("No records to update")
 
 
-if __name__ == '__main__':
+def start_connection():
     sh = connect()
     cell = sh.sheet1.find('**END_OF_RECORDS**', in_column=0)
     if cell is None:
         create(sh)
     else:
-        update(sh)
+        update(sh, cell)

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phantom Buster search URL</title>
+    <link href="{{ url_for('style', path='styles.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="https://cdn.brandfolder.io/70W92OEX/as/q0vc05-3hg50o-8p4uw5/logo-dark.png" alt="..." height="36">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/sheet_form">Google Sheet form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/airtable_form">Airtable form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/update_search">Update search form</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <h1 class="mt-4">Update Sales Navigator search URL</h1>
+  <p>
+    <br>
+    Let's say you created a search in LinkedIn Sales Navigator for new founders in Medellín, Colombia.
+    By default, Phantom Buster will only scrape the original list of profiles that was shown the day you made the search.
+    For example, if you did the search yesterday, and tomorrow someone adds "founder" in their profile,
+    Phantom Buster will not scrape that profile even if the scrapper is still running.
+    <br><br>
+    We found a way around this problem: since Phantom Buster receives a spreadsheet with a list of LinkedIn search urls,
+    we automatically add the same link to the spreadsheet with a slight difference every day, that way the new results
+    will be scraped. Please note that Phantom Buster has a limit of 2,500 profiles per search, so after that number,
+    you could notice duplicates in your table.
+    <br><br>
+    <b>To make it work</b>, we just need two urls:
+    <br><br>
+    &emsp;- <b>google_sheet_url:</b> create an empty Google spreadsheet and copy the sharing link, just make sure to make
+    it open for everyone. Then paste the link in this field.
+    <br><br>
+    &emsp;- <b>search_url:</b> it's the same LinkedIn Sales Navigator search url that you would have to give Phantom Buster
+    to scrape the profiles.
+    <br><br>
+  </p>
+</div>
+
+
+<!-- Form -->
+<form class="form-style-9" action="/update_search_submission" method="post">
+<ul>
+<li>
+    <input type="url" name="sheet_url" class="field-style field-full align-none" placeholder="google_sheet_url" />
+</li>
+<li>
+    <input type="url" name="search_url" class="field-style field-full align-none" placeholder="search_url" />
+</li>
+<li>
+<input type="submit" value="Send"/>
+</ul>
+</form>
+
+<!-- Page Content -->
+<div class="container">
+  <p>
+    <br>
+    After you hit the send button, if the response is “Task scheduled successfully”, it’s all done!
+    The Sales Navigator search url will be updated in your Google Sheet every day.
+    <br><br>
+    <b>IMPORTANT:</b> Make sure to use the same spreadsheet link as the one in the form for the scraping task in Phantom Buster.
+    <br><br>
+  </p>
+</div>
+</body>
+
+<!-- API response management -->
+<script>
+
+function target_popup(form) {
+   let sheet_url = document.forms["Sheet_Form"]["sheet_url"].value
+    if (sheet_url == null || sheet_url == "") {
+        window.open('', Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please! check your entries and make sure you fill all fields correctly'
+        }), 'width=400,height=400,resizeable,scrollbars');
+        form.target = Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please! check your entries and make sure you fill all fields correctly'
+        });
+    }
+}
+</script>
+
+</html>

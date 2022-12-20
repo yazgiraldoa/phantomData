@@ -26,7 +26,7 @@ def create(table):
     df = df.fillna('')
     df = df.applymap(str)
     fields = df.to_dict('records')
-    table.batch_create(fields)
+    table.batch_create(fields, typecast=True)
 
 
 def update(table, row_count):
@@ -37,7 +37,7 @@ def update(table, row_count):
         df = df.fillna('')
         df = df.applymap(str)
         fields = df.to_dict('records')
-        table.batch_create(fields)
+        table.batch_create(fields, typecast=True)
     else:
         print("No records to update")
 
