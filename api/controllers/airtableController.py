@@ -9,14 +9,14 @@ api_router = APIRouter()
 air_table_task = AirtableManager()
 sheet_task = SheetsManager()
 
-templates = Jinja2Templates(directory="web_dynamic_files/forms")
+templates = Jinja2Templates(directory="web_dynamic_files/templates")
 
 
 @api_router.get('/airtable_form/', response_class=HTMLResponse)
 def write_airtable(request: Request):
     """Endpoint that retrieves Airtable form"""
     context = {'request': request}
-    return templates.TemplateResponse("airtable_form.html", context)
+    return templates.TemplateResponse("general_pages/airtable_form.html", context)
 
 
 @api_router.post("/airtable_submission")

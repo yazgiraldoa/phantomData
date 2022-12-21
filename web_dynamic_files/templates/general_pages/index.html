@@ -1,0 +1,72 @@
+{% extends "shared/base.html" %}
+
+{% block title %}
+<title>Techstars sourcing</title>
+{% endblock %}
+
+{% set active_page = "index" %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mt-4">Managing data resulting from Phantom Buster results</h1>
+  <p>
+    Hey! 😄
+    <br /><br />
+    This is a brief tutorial to get the information resulting from Phantom
+    Buster tasks. You will be able to manage the information in
+    <a href="http://airtable.com">Airtable</a> or
+    <a href="https://www.google.com/sheets/about/">Google Sheets</a> and get new
+    entry updates while the Phantom Buster task is still running. <br /><br />
+    To use this solution,
+    <b
+      >you need to have one Phantom Buster task running with at least one result
+      in the CSV.</b
+    >
+    We will upload the information and keep updating the document every day
+    automatically.
+  </p>
+  <h2 class="mt-4">Which one should you use?</h2>
+  <h5 class="mt-4">Google Sheet form</h5>
+  <p>
+    This is the recommended one because it's simpler to use, you just need the
+    Phantom Buster's CSV link and a Google Sheet link.
+  </p>
+  <h5 class="mt-4">Airtable form</h5>
+  <p>
+    This one is a little more complicated to use, and it fails easier than
+    Google Sheets solution. Here, you will need to create the Airtable base
+    yourself, import the header rows and change the name to the table.
+    <br /><br />
+    Why does it fail more easily? Because Phantom Buster tends to add more
+    columns to the original CSV (from which we created the table in the first
+    place) to reflect errors or any other information scrapped. The Airtable
+    service does not allow us to create a new column or update the other data
+    when it finds a column that is not mapped in the table.
+    <br /><br />
+    If you decide to use this solution anyway, and you notice the table is not
+    updating daily, check the CSV directly in Phantom Buster. Look for the
+    differences between header rows both from the CSV and the Airtable, if
+    there's any difference, please update the Airtable. Then, wait one day to
+    see if it works again, otherwise contact Techstars Miami team.
+  </p>
+  <h2 class="mt-4">Update search form</h2>
+  <p>
+    This is an additional solution that allows you to keep the Phantom Buster
+    task scrapping new results.
+    <br /><br />
+    Let's say you created a search in LinkedIn Sales Navigator for new founders
+    in Medellín, Colombia. By default, Phantom Buster will only scrape the
+    original list of profiles that was shown the day you made the search. For
+    example, if you did the search yesterday, and tomorrow someone adds
+    "founder" in their profile, Phantom Buster will not scrape that profile even
+    if the scrapper is still running.
+    <br /><br />
+    We found a way around this problem: since Phantom Buster receives a
+    spreadsheet with a list of LinkedIn search urls, we automatically add the
+    same link to the spreadsheet with a slight difference every day, that way
+    the new results will be scraped. Please note that Phantom Buster has a limit
+    of 2,500 profiles per search, so after that number, you could notice
+    duplicates in your table.
+  </p>
+</div>
+{% endblock %}

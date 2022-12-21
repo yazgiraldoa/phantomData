@@ -10,6 +10,7 @@ def make_app():
 
     app.include_router(router=router)
     app.mount("/style", StaticFiles(directory="web_dynamic_files/style"), name="style")
+    app.mount("/static", StaticFiles(directory="web_dynamic_files/static"), name="static")
     return app
 
 

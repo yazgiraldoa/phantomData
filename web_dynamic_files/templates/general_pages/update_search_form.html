@@ -1,0 +1,106 @@
+{% extends "shared/base.html" %}
+
+<!-- Page title -->
+{% block title %}
+<title>Phantom Buster search URL</title>
+{% endblock %}
+
+<!-- Set active button on navbar -->
+{% set active_page = "update_search" %}
+
+<!-- Content -->
+{% block content %}
+<div>
+  <!-- Page Content -->
+  <div class="container">
+    <h1 class="mt-4">Update Sales Navigator search URL</h1>
+    <p>
+      <br />
+      Let's say you created a search in LinkedIn Sales Navigator for new
+      founders in Medellín, Colombia. By default, Phantom Buster will only
+      scrape the original list of profiles that was shown the day you made the
+      search. For example, if you did the search yesterday, and tomorrow someone
+      adds "founder" in their profile, Phantom Buster will not scrape that
+      profile even if the scrapper is still running.
+      <br /><br />
+      We found a way around this problem: since Phantom Buster receives a
+      spreadsheet with a list of LinkedIn search urls, we automatically add the
+      same link to the spreadsheet with a slight difference every day, that way
+      the new results will be scraped. Please note that Phantom Buster has a
+      limit of 2,500 profiles per search, so after that number, you could notice
+      duplicates in your table.
+      <br /><br />
+      <b>To make it work</b>, we just need two urls: <br /><br />
+      &emsp;- <b>google_sheet_url:</b> create an empty Google spreadsheet and
+      copy the sharing link, just make sure to make it open for everyone. Then
+      paste the link in this field. <br /><br />
+      &emsp;- <b>search_url:</b> it's the same LinkedIn Sales Navigator search
+      url that you would have to give Phantom Buster to scrape the profiles.
+      <br /><br />
+    </p>
+  </div>
+
+  <!-- Form -->
+  <form class="form-style-9" action="/update_search_submission" method="post">
+    <ul>
+      <li>
+        <input
+          type="url"
+          name="sheet_url"
+          class="field-style field-full align-none"
+          placeholder="google_sheet_url"
+        />
+      </li>
+      <li>
+        <input
+          type="url"
+          name="search_url"
+          class="field-style field-full align-none"
+          placeholder="search_url"
+        />
+      </li>
+      <li>
+        <input type="submit" value="Send" />
+      </li>
+    </ul>
+  </form>
+
+  <!-- Page Content -->
+  <div class="container">
+    <p>
+      <br />
+      After you hit the send button, if the response is “Task scheduled
+      successfully”, it’s all done! The Sales Navigator search url will be
+      updated in your Google Sheet every day.
+      <br /><br />
+      <b>IMPORTANT:</b> Make sure to use the same spreadsheet link as the one in
+      the form for the scraping task in Phantom Buster. <br /><br />
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+<!-- Scripts -->
+{% block scripts %}
+<script>
+  function target_popup(form) {
+    let sheet_url = document.forms["Sheet_Form"]["sheet_url"].value;
+    if (sheet_url == null || sheet_url == "") {
+      window.open(
+        "",
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Please! check your entries and make sure you fill all fields correctly",
+        }),
+        "width=400,height=400,resizeable,scrollbars"
+      );
+      form.target = Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please! check your entries and make sure you fill all fields correctly",
+      });
+    }
+  }
+</script>
+{% endblock %}

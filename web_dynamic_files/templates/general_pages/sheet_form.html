@@ -1,0 +1,75 @@
+{% extends "shared/base.html" %}
+
+{% block title %}
+<title>Google sheet</title>
+{% endblock %}
+
+{% set active_page = "sheet_form" %}
+
+{% block content %}
+<div>
+  <div class="container">
+    <h1 class="mt-4">Google Sheets</h1>
+    <p>
+      <br />
+      To save the data in Google Sheets, you will need to:
+      <br /><br />
+      1. Create a spreadsheet and copy the sharing link. Make sure to make it
+      open for everyone:
+      <br /><br />
+      <img
+        src="../static/images/sheets1.png"
+        alt="Google Sheets sharing window"
+      />
+      <br /><br />
+      2. Please, fill in all the parameters in the following form:
+      <br /><br />
+      &emsp;- <b>sheets_url:</b> it’s the URL from Google Sheets mentioned in
+      step 1. <br /><br />
+      &emsp;- <b>phantom_csv:</b> it’s the CSV link from the Phantom Buster
+      task. You can go to Phantom Buster and right-click to copy the download
+      link of the results CSV.
+    </p>
+  </div>
+  <form class="form-style-9" onsubmit="popup(event)">
+    <ul>
+      <li>
+        <input
+          type="url"
+          id="sheets_url"
+          class="field-style field-full align-none"
+          placeholder="google_sheet_url"
+        />
+
+        <input
+          type="url"
+          id="phantom_csv"
+          class="field-style field-full align-none"
+          placeholder="phantom_csv"
+        />
+      </li>
+      <li>
+        <input type="submit" />
+      </li>
+    </ul>
+  </form>
+  <div class="container">
+    <p>
+      After you hit the send button, if the response is “Task scheduled
+      successfully”, it’s all done! The data of your Phantom Buster task will be
+      updated in your Google Sheet every day.
+      <br /><br />
+      <b>IMPORTANT:</b> Please <b>do not</b> delete information from the
+      spreadsheet or remove the <b>**END_OF_RECORDS**</b>
+      row before the Phantom Buster task ends completely. If you do, you will
+      stop the update process or generate duplicates.
+    </p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="../../static/js/showMessages/showErrorMessage.js"></script>
+<script src="../../static/js/sheetForm/validator.js"></script>
+<script src="../../static/js/sheetForm/sheet_form.js"></script>
+{% endblock %}
