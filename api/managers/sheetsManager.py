@@ -4,7 +4,6 @@ import re
 import subprocess
 from crontab import CronTab
 from fastapi import HTTPException
-from fastapi.openapi.models import Response
 
 
 class SheetsManager:
@@ -28,10 +27,10 @@ class SheetsManager:
 
             #subprocess.check_output(f"/bin/bash {os.getcwd()}{path}", stderr=subprocess.STDOUT, shell=True)
         except Exception as e:
-            return HTTPException(detail=e.__str__(), status_code=400)
+            raise HTTPException(detail=e.__str__(), status_code=400)
         else:
             self.schedule_task(script_path)
-            return Response(content="Task scheduled successfully", status_code=200)
+            return {"Task scheduled successfully"}
 
     @staticmethod
     def schedule_task(path: str):

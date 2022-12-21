@@ -20,13 +20,14 @@ def write_sheet(request: Request):
     return templates.TemplateResponse("sheet_form.html", context)
 
 
-@api_router.post("/sheet_submission")
+@api_router.post("/sheet_submission", status_code=200)
 async def handle_sheet_form(sheets_url: str = Form(...), phantom_csv: str = Form(...)):
     """Endpoint that receives the configuration of the task to schedule"""
     if sheets_url and phantom_csv:
-        return sheet_task.create_task(sheet_url=sheets_url, phantom_csv=phantom_csv)
+        response = sheet_task.create_task(sheet_url=sheets_url, phantom_csv=phantom_csv)
+        return response
     else:
-        return HTTPException(status_code=400, detail="Bad request")
+        raise HTTPException(status_code=400, detail="Bad request")
 
 
 @api_router.get('/update_search', response_class=HTMLResponse)
@@ -36,10 +37,10 @@ def write_search_url(request: Request):
     return templates.TemplateResponse("update_search_form.html", context)
 
 
-@api_router.post("/update_search_submission")
-async def handle_update_search_form(sheets_url: str = Form(...), search_url: str = Form(...)):
+@api_router.post("/update_search_submission", status_code=200)
+async def handle_update_search_form(sheet_url: str = Form(...), search_url: str = Form(...)):
     """Endpoint that receives the configuration of the task to schedule"""
-    if sheets_url and search_url:
-        return sheet_task.create_task(sheet_url=sheets_url, search_url=search_url)
+    if sheet_url and search_url:
+        return sheet_task.create_task(sheet_url=sheet_url, search_url=search_url)
     else:
-        return HTTPException(status_code=400, detail="Bad request")
+        raise HTTPException(status_code=400, detail="Bad request")
