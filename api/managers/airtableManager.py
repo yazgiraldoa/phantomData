@@ -3,7 +3,6 @@ import uuid
 import re
 from crontab import CronTab
 from fastapi import HTTPException
-from fastapi.openapi.models import Response
 
 
 class AirtableManager:
@@ -26,9 +25,9 @@ class AirtableManager:
                         f'TABLE_NAME={airtable_table_name} python3 {script_path}\n')
 
             self.schedule_task(path)
-            return Response(content="Task scheduled successfully", status_code=200)
+            return {"Task scheduled successfully"}
         except Exception as e:
-            return HTTPException(detail=e.__str__(), status_code=400)
+            raise HTTPException(detail=e.__str__(), status_code=400)
 
     @staticmethod
     def schedule_task(path: str):
