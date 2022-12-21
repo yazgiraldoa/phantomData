@@ -28,7 +28,7 @@ async def handle_sheet_form(request: Request):
         sheets_url = requestBody["sheets_url"]
         phantom_csv = requestBody["phantom_csv"]
     except KeyError:
-        return HTTPException(status_code=400, detail="Bad request")
+        raise HTTPException(status_code=400, detail="Bad request")
 
     return sheet_task.create_task(sheet_url=sheets_url, phantom_csv=phantom_csv)
 
