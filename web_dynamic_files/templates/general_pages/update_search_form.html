@@ -11,7 +11,6 @@
 <!-- Content -->
 {% block content %}
 <div>
-  <!-- Page Content -->
   <div class="container">
     <h1 class="mt-4">Update Sales Navigator search URL</h1>
     <p>
@@ -40,13 +39,13 @@
     </p>
   </div>
 
-  <!-- Form -->
-  <form class="form-style-9" action="/update_search_submission" method="post">
+  <form class="form-style-9" onsubmit="updateSearchForm(event)">
     <ul>
       <li>
         <input
           type="url"
           name="sheet_url"
+          id="sheet_url"
           class="field-style field-full align-none"
           placeholder="google_sheet_url"
         />
@@ -55,6 +54,7 @@
         <input
           type="url"
           name="search_url"
+          id="search_url"
           class="field-style field-full align-none"
           placeholder="search_url"
         />
@@ -65,7 +65,6 @@
     </ul>
   </form>
 
-  <!-- Page Content -->
   <div class="container">
     <p>
       <br />
@@ -82,25 +81,9 @@
 
 <!-- Scripts -->
 {% block scripts %}
-<script>
-  function target_popup(form) {
-    let sheet_url = document.forms["Sheet_Form"]["sheet_url"].value;
-    if (sheet_url == null || sheet_url == "") {
-      window.open(
-        "",
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Please! check your entries and make sure you fill all fields correctly",
-        }),
-        "width=400,height=400,resizeable,scrollbars"
-      );
-      form.target = Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Please! check your entries and make sure you fill all fields correctly",
-      });
-    }
-  }
-</script>
+<script src="../../static/js/showMessages/showErrorMessage.js"></script>
+<script src="../../static/js/validators/google_sheet_validator.js"></script>
+<script src="../../static/js/validators/search_url_validator.js"></script>
+<script src="../../static/js/updateSearchForm/validator.js"></script>
+<script src="../../static/js/updateSearchForm/update_search_form.js"></script>
 {% endblock %}

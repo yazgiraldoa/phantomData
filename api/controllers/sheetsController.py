@@ -29,7 +29,6 @@ async def handle_sheet_form(request: Request):
         phantom_csv = requestBody["phantom_csv"]
     except KeyError:
         raise HTTPException(status_code=400, detail="Bad request")
-
     return sheet_task.create_task(sheet_url=sheets_url, phantom_csv=phantom_csv)
 
 
@@ -41,9 +40,13 @@ def write_search_url(request: Request):
 
 
 @api_router.post("/update_search_submission", status_code=200)
-async def handle_update_search_form(sheet_url: str = Form(...), search_url: str = Form(...)):
+async def handle_update_search_form(request: Request):
     """Endpoint that receives the configuration of the task to schedule"""
-    if sheet_url and search_url:
-        return sheet_task.create_task(sheet_url=sheet_url, search_url=search_url)
-    else:
+    requestBody = await request.json()
+    try:
+        sheet_url = requestBody["sheet_url"]
+        search_url = requestBody["search_url"]
+    except KeyError:
         raise HTTPException(status_code=400, detail="Bad request")
+
+    return sheet_task.create_task(sheet_url=sheet_url, search_url=search_url)

@@ -1,11 +1,14 @@
 {% extends "shared/base.html" %}
 
+<!-- Page title -->
 {% block title %}
 <title>Google sheet</title>
 {% endblock %}
 
+<!-- Set active Button on navbar -->
 {% set active_page = "sheet_form" %}
 
+<!-- Content -->
 {% block content %}
 <div>
   <div class="container">
@@ -68,8 +71,11 @@
 </div>
 {% endblock %}
 
+<!-- Scripts -->
 {% block scripts %}
 <script src="../../static/js/showMessages/showErrorMessage.js"></script>
+<script src="../../static/js/validators/google_sheet_validator.js"></script>
+<script src="../../static/js/validators/phantom_csv_validator.js"></script>
 <script src="../../static/js/sheetForm/validator.js"></script>
 <script src="../../static/js/sheetForm/sheet_form.js"></script>
 {% endblock %}

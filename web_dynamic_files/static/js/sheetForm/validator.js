@@ -1,9 +1,12 @@
 function sheetFormValidator(phantom_csv, sheets_url) {
-  if (sheets_url === "") {
-    return "google_sheet_url cannot be empty";
+  const googleSheetResult = googleSheetValidator(sheets_url);
+  if (googleSheetResult !== null) {
+    return googleSheetResult;
   }
-  if (phantom_csv === "") {
-    return "phantom_csv cannot be empty";
+
+  const phantomCsvResult = phantomCsvValidator(phantom_csv);
+  if (phantomCsvResult !== null) {
+    return phantomCsvResult;
   }
 
   return null;

@@ -1,11 +1,13 @@
 {% extends "shared/base.html" %}
-
+<!-- Page title -->
 {% block title %}
 <title>Airtable</title>
 {% endblock %}
 
+<!-- Set active button on Navbar -->
 {% set active_page = "airtable_form" %}
 
+<!-- Content -->
 {% block content %}
 <div>
   <div class="container">
@@ -69,18 +71,20 @@
     </p>
   </div>
 
-  <form class="form-style-9" action="/airtable_submission" method="POST">
+  <form class="form-style-9" onsubmit="target_popup(event)">
     <ul>
       <li>
         <input
           type="url"
           name="phantom_csv"
+          id="phantom_csv"
           class="field-style field-split align-left"
           placeholder="phantom_csv"
         />
         <input
           type="text"
           name="airtable_api_key"
+          id="airtable_api_key"
           class="field-style field-split align-right"
           placeholder="airtable_api_key"
         />
@@ -89,12 +93,14 @@
         <input
           type="url"
           name="airtable_base_url"
+          id="airtable_base_url"
           class="field-style field-split align-left"
           placeholder="airtable_base_url"
         />
         <input
           type="text"
           name="airtable_table_name"
+          id="airtable_table_name"
           class="field-style field-split align-right"
           placeholder="airtable_table_name"
         />
@@ -117,64 +123,15 @@
     </p>
   </div>
 </div>
-{% endblock %} {% block scripts %}
+{% endblock %}
 
-<!-- API response management -->
-<script>
-  function target_popup(form) {
-    let phantom_csv = document.forms["air_table"]["phantom_csv"].value;
-    let airtable_api_key =
-      document.forms["air_table"]["airtable_api_key"].value;
-    let airtable_base_url =
-      document.forms["air_table"]["airtable_base_url"].value;
-    let airtable_table_name =
-      document.forms["air_table"]["airtable_table_name"].value;
-    fetch("/air_table_submission").then((response) => {
-      console.log(response.status); // Will show you the status
-      if (!response.ok) {
-        {
-          window.open(
-            "",
-            Swal.fire({
-              icon: "error",
-              title: "Oops... This is Bad",
-              text: "There is a wrong with your URLs, airtable name, or airtable api key",
-            }),
-            "width=400,height=400,resizeable,scrollbars"
-          );
-          form.target = Swal.fire({
-            icon: "error",
-            title: "Oops... This is Bad",
-            text: "There is a wrong with your URLs, airtable name, or airtable api key",
-          });
-        }
-      }
-    });
-    if (
-      phantom_csv == null ||
-      phantom_csv == "" ||
-      airtable_api_key == null ||
-      airtable_api_key == "" ||
-      airtable_base_url == null ||
-      airtable_base_url == "" ||
-      airtable_table_name == null ||
-      airtable_table_name == ""
-    ) {
-      window.open(
-        "",
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Please! check your entries and make sure you fill all fields correctly",
-        }),
-        "width=400,height=400,resizeable,scrollbars"
-      );
-      form.target = Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Please! check your entries and make sure you fill all fields correctly",
-      });
-    }
-  }
-</script>
+<!-- Scripts -->
+{% block scripts %}
+<script src="../../static/js/showMessages/showErrorMessage.js"></script>
+<script src="../../static/js/validators/phantom_csv_validator.js"></script>
+<script src="../../static/js/validators/airtable_api_key_validator.js"></script>
+<script src="../../static/js/validators/airtable_base_url_validator.js"></script>
+<script src="../../static/js/validators/airtable_table_name_validator.js"></script>
+<script src="../../static/js/airTableForm/validator.js"></script>
+<script src="../../static/js/airTableForm/airtable_form.js"></script>
 {% endblock %}

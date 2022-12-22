@@ -20,11 +20,16 @@ def write_airtable(request: Request):
 
 
 @api_router.post("/airtable_submission", status_code=200)
-async def handle_airtable_form(phantom_csv: str = Form(...), airtable_api_key: str = Form(...),
-                               airtable_base_url: str = Form(...), airtable_table_name: str = Form(...)):
+async def handle_airtable_form(request: Request):
     """Endpoint that receives the configuration of the task to schedule"""
-    if phantom_csv and airtable_api_key and airtable_base_url and airtable_table_name:
-        return air_table_task.create_task(phantom_csv, airtable_api_key, airtable_base_url,
-                                          airtable_table_name)
-    else:
+    requestBody = await request.json()
+    try:
+        phantom_csv = requestBody["phantom_csv"]
+        airtable_api_key = requestBody["airtable_api_key"]
+        airtable_base_url = requestBody["airtable_base_url"]
+        airtable_table_name = requestBody["airtable_table_name"]
+    except KeyError:
         raise HTTPException(status_code=400, detail="Bad request")
+
+    return air_table_task.create_task(phantom_csv, airtable_api_key, airtable_base_url,
+                                      airtable_table_name)
