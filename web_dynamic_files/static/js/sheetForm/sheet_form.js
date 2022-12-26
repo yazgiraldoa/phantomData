@@ -10,7 +10,6 @@ function popup(event) {
     showErrorMessage(validatorErrorMessage);
     return;
   }
-
   fetch("/sheet_submission", {
     method: "POST",
     body: JSON.stringify({ phantom_csv, sheets_url }),
@@ -18,7 +17,9 @@ function popup(event) {
   })
     .then((response) => response.json())
     .then(({ status_code, detail }) => {
-      if (status_code !== 200 || status_code !== 201) {
+      if (status_code === 201) {
+        showSuccessMessage("Task scheduled successfully");
+      } else {
         showErrorMessage(detail);
       }
     })

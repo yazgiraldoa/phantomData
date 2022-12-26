@@ -24,7 +24,9 @@ function updateSearchForm(event) {
   })
     .then((response) => response.json())
     .then(({ status_code, detail }) => {
-      if (status_code !== 200 || status_code !== 201) {
+      if (status_code === 200) {
+        showSuccessMessage("Task scheduled successfully");
+      } else {
         showErrorMessage(detail);
       }
     })

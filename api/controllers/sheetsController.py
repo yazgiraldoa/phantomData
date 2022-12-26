@@ -1,8 +1,9 @@
-from fastapi import Request, APIRouter, HTTPException, Form
+from fastapi import APIRouter, Form, HTTPException, Request
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.templating import Jinja2Templates
+
 from api.managers.airtableManager import AirtableManager
 from api.managers.sheetsManager import SheetsManager
-from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
 
 api_router = APIRouter()
 
@@ -19,7 +20,7 @@ def write_sheet(request: Request):
     return templates.TemplateResponse("general_pages/sheet_form.html", context)
 
 
-@api_router.post("/sheet_submission")
+@api_router.post("/sheet_submission", status_code=201)
 async def handle_sheet_form(request: Request):
     """Endpoint that receives the configuration of the task to schedule"""
     requestBody = await request.json()
@@ -29,7 +30,9 @@ async def handle_sheet_form(request: Request):
         phantom_csv = requestBody["phantom_csv"]
     except KeyError:
         raise HTTPException(status_code=400, detail="Bad request")
-    return sheet_task.create_task(sheet_url=sheets_url, phantom_csv=phantom_csv)
+    response = sheet_task.create_task(
+        sheet_url=sheets_url, phantom_csv=phantom_csv)
+    return {"status_code": 201, "detail": response}
 
 
 @api_router.get('/update_search', response_class=HTMLResponse)
@@ -49,4 +52,6 @@ async def handle_update_search_form(request: Request):
     except KeyError:
         raise HTTPException(status_code=400, detail="Bad request")
 
-    return sheet_task.create_task(sheet_url=sheet_url, search_url=search_url)
+    response = sheet_task.create_task(
+        sheet_url=sheet_url, search_url=search_url)
+    return {"status_code": 200, "detail": response}
